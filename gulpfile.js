@@ -20,7 +20,7 @@ gulp.task('sass:watch', function () {
 
 function compile(watch) {
   var bundler = watchify(browserify('./dest/js/script.js', { debug: true, exclude: './dest/js/bundle.js' }).transform(babel.configure({
-    presets: ['es2015']
+    presets: ['es2015'],
   })));
 
   function rebundle() {

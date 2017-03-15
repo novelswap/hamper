@@ -5,5 +5,4 @@ RewriteBase /
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^([^/]*)$ dest/$1.php [NC,L]
 </IfModule>

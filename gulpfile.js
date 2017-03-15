@@ -1,36 +1,39 @@
 var gulp = require('gulp');
-var browserify = require('browserify');
-var gutil = require('gulp-util');
-var tap = require('gulp-tap');
-var buffer = require('gulp-buffer');
 var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
+var browserify = require('browserify');
+var watchify = require('watchify');
+var babel = require('babelify');
 
-gulp.task('js', function () {
+function compile(watch) {
+  var bundler = watchify(browserify('./src/js/*.js', { debug: true }).transform(babel));
 
-  return gulp.src('src/**/*.js', {read: false}) // no need of reading file because browserify does.
+  function rebundle() {
+    bundler.bundle()
+      .on('error', function(err) { console.error(err); this.emit('end'); })
+      .pipe(source('build.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({ loadMaps: true }))
+      .pipe(sourcemaps.write('./'))
+      .pipe(gulp.dest('./dest'));
+  }
 
-    // transform file objects using gulp-tap plugin
-    .pipe(tap(function (file) {
+  if (watch) {
+    bundler.on('update', function() {
+      console.log('-> bundling...');
+      rebundle();
+    });
+  }
 
-      gutil.log('bundling ' + file.path);
+  rebundle();
+}
 
-      // replace file contents with browserify's bundle stream
-      file.contents = browserify(file.path, {debug: true}).bundle();
+function watch() {
+  return compile(true);
+};
 
-    }))
+gulp.task('build', function() { return compile(); });
+gulp.task('watch', function() { return watch(); });
 
-    // transform streaming contents into buffer contents (because gulp-sourcemaps does not support streaming contents)
-    .pipe(buffer())
-
-    // load and init sourcemaps
-    .pipe(sourcemaps.init({loadMaps: true}))
-
-    .pipe(uglify())
-
-    // write sourcemaps
-    .pipe(sourcemaps.write('./'))
-
-    .pipe(gulp.dest('dest'));
-
-});
+gulp.task('default', ['watch']);

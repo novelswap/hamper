@@ -103,6 +103,9 @@ if ($formError === false) {
       'subject' => "Thanks for signing up $firstname!",
       'text' => $emailContent
     ));
+
+    $response_array['status'] = 'success';
+    $response_array['message'] = 'Thank you for registering. Please check your email to activate your account.';
   }
 }
 

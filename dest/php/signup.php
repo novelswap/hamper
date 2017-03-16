@@ -7,7 +7,6 @@ use Mailgun\Mailgun;
 
 $mg = new Mailgun($mailgun);
 $db = new MysqliDb($mysqli);
-$domain = 'hh.joshghent.com';
 
 // POST VARIABLES
 $firstname = $_POST['firstname'];
@@ -60,11 +59,50 @@ if ($formError === false) {
   if ($db->count > 0) {
     $response_array['message'] = "This email has already been used. Click <a href='forgotten-password.php'>here</a> if you would like to reset your password.";
   } else {
-    // Insert into the users table
 
+    $options = [
+      'cost' => 12
+    ];
+
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT, $options);
+
+    $today = date('Y-m-d H:i:s');
+
+    // Insert into the users table
+    $userID = $db->insert('users', array(
+      'firstname' => $firstname,
+      'surname' => $surname,
+      'email' => $email,
+      'password' => $hashedPassword,
+      'active' => 0,
+      'deleted' => 0,
+      'createdOn' => $today,
+      'modifiedOn' => $today
+    ));
 
     // Insert into the confirmation table
+
+    $hash = bin2hex(random_bytes(32));
+
+    $confirmationID = $db->insert('userConfirm', array(
+      'userID' => $userID,
+      'key' => $hash,
+      'email' => $email,
+      'timestamp' => time()
+    ));
+
+
     // Send email to the user
+    $emailContent = "<p>Hello $firstname $surname,</p>";
+    $emailContent .= "<p>Thank you for signing up to HH!</p>";
+    $emailContent .= "<h4>To activate your account please <a href='https://hh.joshghent.com/dest/active-account?email=$email&key=$hash'>click here</a></h4>";
+
+    $confirmationEmail = $mg->sendMessage($domain, array(
+      'from' => 'Confirm Registration <no-reply@hh.joshghent.com>',
+      'to' => $email,
+      'subject' => "Thanks for signing up $firstname!",
+      'text' => $emailContent
+    ));
   }
 }
 

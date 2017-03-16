@@ -1,2 +1,4 @@
 includes/dbConnect.inc.php
 node_modules
+vendor
+includes/config.php

@@ -10,11 +10,29 @@ $pageName = "Sign Up";
 <body>
   <div class="successMessage"></div>
   <form id="signupForm">
-    <input type="text" class="firstname" name="firstname" />
-    <input type="text" class="surname" name="surname" />
-    <input type="text" class="email" name="email" />
-    <input type="password" class="password" name="password" />
-    <input type="password" class="confirmPassword" name="confirmPassword" />
+    <div class="form-group">
+      <span>Firstname</span>
+      <input type="text" class="firstname" name="firstname" />
+    </div>
+
+    <div class="form-group">
+      <span>Surname</span>
+      <input type="text" class="surname" name="surname" />
+    </div>
+
+    <div class="form-group">
+      <span>Email</span>
+      <input type="text" class="email" name="email" />
+    </div>
+
+    <div class="form-group">
+      <span>Password</span>
+      <input type="password" class="password" name="password" />
+
+      <span>Confirm Password</span>
+      <input type="password" class="confirmPassword" name="confirmPassword" />
+    </div>
+
     <label>
       <input type="checkbox" name="notifications" selected/> I agree to occationally recieve marketing emails 
     </label>

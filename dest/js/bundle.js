@@ -18,6 +18,26 @@ $('#loginForm').on('submit', function () {
   return false;
 });
 
+$('#signupForm').on('submit', function () {
+  $.ajax({
+    type: "POST",
+    url: "./php/signup.php",
+    dataType: "JSON",
+    data: $('#signupForm').serialize(),
+    success: function success(data) {
+      if (data.status === 'success') {
+        $('#signupForm').slideUp();
+        $('.successMessage').fadeIn().html(data.message);
+        $('.errorMessage').fadeOut();
+      } else {
+        $('.errorMessage').fadeIn().html(data.message);
+      }
+    }
+  });
+
+  return false;
+});
+
 },{}]},{},[1])
 
 //# sourceMappingURL=bundle.js.map

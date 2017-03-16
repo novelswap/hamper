@@ -2,8 +2,12 @@
 include('./../../includes/dbConnect.inc.php');
 include('./../../includes/config.php');
 require('./../../vendor/joshcam/mysqli-database-class/MysqliDb.php');
+require('./../../vendor/autoload.php');
+use Mailgun\Mailgun;
 
+$mg = new Mailgun($mailgun);
 $db = new MysqliDb($mysqli);
+$domain = 'hh.joshghent.com';
 
 // POST VARIABLES
 $firstname = $_POST['firstname'];
@@ -55,17 +59,16 @@ if ($formError === false) {
 
   if ($db->count > 0) {
     $response_array['message'] = "This email has already been used. Click <a href='forgotten-password.php'>here</a> if you would like to reset your password.";
+  } else {
+    // Insert into the users table
+
+
+    // Insert into the confirmation table
+    // Send email to the user
   }
-} else {
-  $formError = false;
 }
 
-if ($formError === )
 
-// Insert into the users table
-
-// Insert into the confirmation table
-// Send email to the user
 
 echo json_encode($response_array);
 ?>

@@ -14,3 +14,20 @@ $('#loginForm').on('submit', () => {
   });
   return false;
 });
+
+$('#signupForm').on('submit', () => {
+  $.ajax({
+    type: "POST",
+    url: "./../php/signup.php",
+    dataType: "JSON",
+    data: $('#signupForm').serialize(),
+    success: function(data) {
+      if (data.status === 'success') {
+        $('#signupForm').slideUp();
+        $('.successMessage').fadeIn().html(data.message);
+      } else {
+        $('.errorMessage').fadeIn().html(data.message);
+      }
+    }
+  });
+});

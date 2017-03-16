@@ -5,8 +5,6 @@ include('./../../includes/config.php');
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-error_log(json_encode($_POST));
-
 $response = array();
 
 if (empty($email)) {

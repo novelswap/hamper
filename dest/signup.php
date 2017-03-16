@@ -8,6 +8,7 @@ $pageName = "Sign Up";
   <?php include('./../includes/resources/header.php'); ?>
 </head>
 <body>
+  <div class="successMessage"></div>
   <form id="signupForm">
     <input type="text" class="firstname" name="firstname" />
     <input type="text" class="surname" name="surname" />

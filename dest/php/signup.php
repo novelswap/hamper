@@ -95,10 +95,6 @@ if ($formError === false) {
       'datetime' => $today
     ));
 
-    error_log($db->getLastQuery());
-
-    error_log($confirmationID);
-
     // Send email to the user
     $emailContent = "<p>Hello $firstname $surname,</p>";
     $emailContent .= "<p>Thank you for signing up to HH!</p>";

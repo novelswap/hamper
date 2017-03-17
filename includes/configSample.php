@@ -4,4 +4,5 @@ error_reporting(E_ALL|E_STRCT);
 
 // API KEYS
 $mailgun = '';
+$domain = '';
 ?>

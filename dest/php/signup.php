@@ -98,7 +98,7 @@ if ($formError === false) {
     // Send email to the user
     $emailContent = "<p>Hello $firstname $surname,</p>";
     $emailContent .= "<p>Thank you for signing up to HH!</p>";
-    $emailContent .= "<h4>To activate your account please <a href='https://hh.joshghent.com/dest/activate-account?email=$email&key=$hash'>click here</a></h4>";
+    $emailContent .= "<h4>To activate your account please <a href='https://hh.joshghent.com/dest/activate-account.php?email=$email&key=$hash'>click here</a></h4>";
 
     $confirmationEmail = $mg->sendMessage($domain, array(
       'from' => 'Confirm Registration <no-reply@hh.joshghent.com>',
